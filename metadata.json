@@ -1,8 +1,0 @@
-{
-  "name": "VoxMate — Voice Coach & Assistant",
-  "description": "Voice-first professional communication coach and personal assistant for practicing English, preparing for interviews, role-playing client calls, and drafting everyday work content.",
-  "permissions": [],
-  "capabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}
