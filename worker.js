@@ -29,8 +29,12 @@ export default {
     const allowedOrigin = env.ALLOWED_ORIGIN || "";
     const headers = cors(origin, allowedOrigin);
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers });
-    if (!allowedOrigin || origin !== allowedOrigin) return json({ error: "This VoxMate origin is not allowed by the backend configuration." }, 403, headers);
+    // Public liveness check: reveals no secrets and does not call Gemini.
     const url = new URL(request.url);
+    if (request.method === "GET" && url.pathname === "/health") {
+      return json({ status: "ok", service: "voxmate-api" }, 200, headers);
+    }
+    if (!allowedOrigin || origin !== allowedOrigin) return json({ error: "This VoxMate origin is not allowed by the backend configuration." }, 403, headers);
     if (request.method !== "POST" || url.pathname !== "/api/chat") return json({ error: "Use POST /api/chat." }, 404, headers);
     if (!env.GEMINI_API_KEY || !env.ACCESS_CODE) return json({ error: "Backend secrets are not configured." }, 503, headers);
     if (request.headers.get("X-VoxMate-Access") !== env.ACCESS_CODE) return json({ error: "Access code is missing or incorrect." }, 401, headers);
