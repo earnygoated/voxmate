@@ -39,7 +39,7 @@ Gemini API access is separate from a Gemini consumer subscription. Check current
 
 ## Privacy and limitations
 
-- Do not enter passwords, recovery codes, sensitive client/employer information, or confidential documents.
+- Do not enter passwords, recovery codes, sensitive client/employer information, or confidential documents. Google's Gemini API free tier may use submitted content to improve Google products; check the current terms and avoid sending private or sensitive content.
 - When backend mode is enabled, conversation text is sent through the Worker to the Gemini API.
 - Browser speech recognition varies by device and may rely on online services. Text-to-speech voices vary by device.
 - A transcript cannot reliably measure accent, intonation, or physical pronunciation. Feedback focuses on word choice, grammar, clarity, and communication structure.
