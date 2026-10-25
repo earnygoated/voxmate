@@ -1,0 +1,6 @@
+# Never commit secrets or local environment settings
+.env
+.env.*
+.dev.vars
+node_modules/
+.DS_Store
