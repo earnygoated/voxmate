@@ -58,8 +58,10 @@ export default {
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
-        if (response.status === 429) return json({ error: "AI free-tier limit reached. Wait and try again later." }, 429, headers);
-        return json({ error: "AI service error. Check model access, key configuration, and current API limits." }, 502, headers);
+        // Log only the upstream HTTP status; never log API keys or request headers.
+        console.error("Gemini API request failed", { status: response.status });
+        if (response.status === 429) return json({ error: "Gemini HTTP 429: free-tier limit or quota reached. Wait and check API usage." }, 429, headers);
+        return json({ error: "Gemini HTTP " + response.status + ": check API key/project access, model availability, and quota." }, 502, headers);
       }
       const reply = data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts
         ? data.candidates[0].content.parts.map(x => x.text || "").join("").trim() : "";
