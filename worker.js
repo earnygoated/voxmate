@@ -65,6 +65,12 @@ export default {
       }
       const reply = data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts
         ? data.candidates[0].content.parts.map(x => x.text || "").join("").trim() : "";
+      // Safe diagnostics only: do not log prompts, replies, API keys, or request headers.
+      console.info("VoxMate Gemini result", {
+        upstreamStatus: response.status,
+        upstreamOk: response.ok,
+        hasText: Boolean(reply)
+      });
       if (!reply) return json({ error: "The AI returned no text. Try a shorter message." }, 502, headers);
       return json({ reply: reply }, 200, headers);
     } catch (err) {
