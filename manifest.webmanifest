@@ -1,0 +1,11 @@
+{
+  "name": "VoxMate — Voice Coach & Assistant",
+  "short_name": "VoxMate",
+  "description": "Voice-first professional communication coach and personal assistant.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1120",
+  "theme_color": "#101827",
+  "icons": []
+}
