@@ -38,6 +38,9 @@ jobs:
           cp worker.js /tmp/worker.mjs
           node --check /tmp/worker.mjs
 
+      - name: Run automated tests (mocked Gemini, no secrets needed)
+        run: node --test tests/worker.test.mjs tests/frontend.test.mjs
+
       - name: Validate web app manifest
         run: python -c "import json; json.load(open('manifest.webmanifest', encoding='utf-8'))"
 

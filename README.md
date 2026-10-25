@@ -33,6 +33,14 @@ The Worker code is in worker.js. Do not paste the Gemini API key into this repos
 5. In VoxMate Settings, enter the Worker URL and the same private access code.
 6. Test with a non-sensitive message.
 
+Optional Worker variable: `GEMINI_MODEL`. If it is not set, the Worker uses `gemini-3.8-flash`. Set it only if you need a different model (for example, if Google retires a model name). The older `gemini-3.5-flash` name is deprecated by Google.
+
+The Worker also: sends the API key in a request header (never in a URL), repairs malformed chat history before calling Gemini, stops waiting for Gemini after 25 seconds, and applies a best-effort limit of 60 requests per 10 minutes per client address. That limit is per Worker instance, so it reduces accidental loops and casual abuse but is not a hard quota.
+
+**Important: the Worker does not update automatically from GitHub.** After changing `worker.js`, open the Worker in the Cloudflare dashboard, choose Edit code, paste the full contents of `worker.js`, and click Deploy. Your secrets stay as they are.
+
+Run the automated checks locally with `node --test tests/worker.test.mjs tests/frontend.test.mjs` (Node 20 or newer). They use a pretend Gemini, so no key is needed.
+
 Use a long, random ACCESS_CODE and keep it private. It is an extra barrier, not a full account system. CORS is not authentication by itself. A public Worker endpoint can still be called outside the browser if someone obtains the access code. Before sharing the AI-enabled endpoint widely, add rate limiting or abuse protection and monitor quotas.
 
 Gemini API access is separate from a Gemini consumer subscription. Check current free-tier availability, limits, and data-use terms before enabling it. Do not configure billing if the requirement is strict zero spending.
@@ -50,5 +58,6 @@ Gemini API access is separate from a Gemini consumer subscription. Check current
 - index.html — app interface and browser-side logic
 - worker.js — optional server-side Gemini proxy
 - manifest.webmanifest — installation metadata
-- sw.js — minimal service worker
+- sw.js — service worker (network first for the app's own files; never caches the backend)
+- tests/ — automated tests for the Worker and the coaching-feedback parser
 - README.md — setup, security, privacy, and limitations
